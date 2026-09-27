@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PanchOS</title>
+<style>
+:root{--accent:#6d5dfc;--glass:rgba(18,20,30,.72);--glass2:rgba(255,255,255,.09);--text:#f7f7fb;--muted:#b9bbc8}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Segoe UI,system-ui,sans-serif;color:var(--text)}
+body{background:radial-gradient(circle at 75% 20%,#42348b 0,#171827 38%,#080910 100%);user-select:none}
+#desktop{position:absolute;inset:0 0 64px;padding:22px;overflow:hidden}
+.wallpaper{position:absolute;inset:0;background:radial-gradient(circle at 20% 25%,rgba(87,120,255,.32),transparent 35%),radial-gradient(circle at 80% 70%,rgba(177,72,255,.24),transparent 40%)}
+.icons{position:relative;display:grid;grid-template-columns:repeat(1,88px);gap:18px;width:90px}.icon{width:78px;padding:8px;border-radius:9px;text-align:center;font-size:12px;text-shadow:0 2px 5px #000;cursor:pointer}.icon:hover{background:rgba(255,255,255,.12)}.ico{font-size:32px;display:block;margin-bottom:4px}
+#taskbar{position:absolute;bottom:0;left:0;right:0;height:64px;background:rgba(12,13,20,.82);backdrop-filter:blur(24px);border-top:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;gap:6px;z-index:1000}
+.tb{height:48px;min-width:46px;border:0;background:transparent;color:white;border-radius:9px;font-size:23px;cursor:pointer}.tb:hover{background:rgba(255,255,255,.1)}#clock{position:absolute;right:14px;font-size:12px;text-align:right;line-height:1.3}
+#start{position:absolute;bottom:72px;left:50%;transform:translateX(-50%) scale(.96);width:min(620px,calc(100vw - 24px));height:620px;background:rgba(25,27,38,.91);backdrop-filter:blur(30px);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:24px;z-index:900;box-shadow:0 20px 70px #0008;opacity:0;pointer-events:none;transition:.16s}.open{opacity:1!important;transform:translateX(-50%) scale(1)!important;pointer-events:auto!important}
+.search{width:100%;height:42px;border:1px solid #ffffff20;border-radius:8px;background:#ffffff0c;color:white;padding:0 14px;outline:0}.startgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:22px}.app{padding:14px 6px;text-align:center;border-radius:9px;cursor:pointer;font-size:12px}.app:hover{background:#ffffff12}.app b{display:block;font-size:27px;margin-bottom:7px}.section{margin:25px 0 10px;font-size:13px;color:#ddd}
+.win{position:absolute;min-width:360px;min-height:230px;width:650px;height:440px;left:180px;top:90px;background:rgba(22,24,34,.94);border:1px solid #ffffff20;border-radius:10px;box-shadow:0 20px 55px #0009;overflow:hidden;z-index:10}.titlebar{height:42px;display:flex;align-items:center;padding:0 12px;background:#ffffff06;cursor:move}.titlebar span{flex:1;font-size:13px}.controls button{border:0;background:transparent;color:#ddd;width:38px;height:30px;border-radius:6px}.controls button:hover{background:#ffffff12}.content{height:calc(100% - 42px);overflow:auto;padding:18px}
+textarea,input,button,select{font:inherit}.terminal{background:#070809;color:#d8ffd8;font:13px Consolas,monospace;padding:14px;height:100%;overflow:auto;white-space:pre-wrap}.termcmd{background:transparent;border:0;outline:0;color:#d8ffd8;font:inherit;width:90%}
+.filelist{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:14px}.file{padding:18px 8px;border-radius:8px;text-align:center;background:#ffffff06}.note{width:100%;height:100%;background:#11131b;color:#eee;border:0;outline:0;resize:none;padding:15px;font-size:15px}
+.settings{display:grid;gap:10px}.setting{padding:15px;background:#ffffff07;border-radius:9px;display:flex;justify-content:space-between}.switch{accent-color:var(--accent)}
+#boot{position:fixed;inset:0;background:#05060a;display:flex;align-items:center;justify-content:center;z-index:5000;transition:opacity .5s}.bootbox{text-align:center}.logo{font-size:70px;font-weight:800;letter-spacing:-5px}.bootbar{width:180px;height:4px;background:#222;border-radius:9px;margin:30px auto;overflow:hidden}.bootbar i{display:block;height:100%;width:35%;background:#fff;animation:load 1.2s infinite}@keyframes load{to{transform:translateX(520%)}} 
+@media(max-width:650px){.win{left:8px!important;top:20px!important;width:calc(100vw - 16px)!important;height:calc(100vh - 100px)!important}.startgrid{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<div id="boot"><div class="bootbox"><div class="logo">Panch<span style="color:#8b7cff">OS</span></div><div>Iniciando...</div><div class="bootbar"><i></i></div></div></div>
+<div class="wallpaper"></div><main id="desktop"><div class="icons">
+<div class="icon" ondblclick="openApp('files')"><span class="ico">📁</span>Archivos</div>
+<div class="icon" ondblclick="openApp('notes')"><span class="ico">📝</span>Notas</div>
+<div class="icon" ondblclick="openApp('term')"><span class="ico">⌨️</span>Terminal</div>
+<div class="icon" ondblclick="openApp('settings')"><span class="ico">⚙️</span>Configuración</div>
+</div></main>
+<div id="start"><input class="search" placeholder="Buscar aplicaciones, archivos y más..." oninput="searchApps(this.value)">
+<div class="section">Ancladas</div><div class="startgrid" id="apps"></div><div class="section">Recomendado</div><div style="padding:14px;background:#ffffff07;border-radius:9px">🚀 Bienvenido a PanchOS<br><small style="color:var(--muted)">Un sistema operativo web experimental de Pancho Games Studios.</small></div></div>
+<div id="taskbar"><button class="tb" onclick="toggleStart()">◈</button><button class="tb" onclick="openApp('files')">📁</button><button class="tb" onclick="openApp('notes')">📝</button><button class="tb" onclick="openApp('term')">⌨️</button><button class="tb" onclick="openApp('settings')">⚙️</button><div id="clock"></div></div>
+<script>
+const apps=[
+{id:'files',name:'Archivos',icon:'📁'}, {id:'notes',name:'Notas',icon:'📝'}, {id:'calc',name:'Calculadora',icon:'🧮'},
+{id:'term',name:'Terminal',icon:'⌨️'}, {id:'settings',name:'Configuración',icon:'⚙️'}, {id:'about',name:'Acerca de',icon:'💜'}
+];
+const appBox=document.getElementById('apps');
+function renderApps(list=apps){appBox.innerHTML=list.map(a=>`<div class="app" ondblclick="openApp('${a.id}')"><b>${a.icon}</b>${a.name}</div>`).join('')}
+renderApps();
+function toggleStart(){document.getElementById('start').classList.toggle('open')}
+function searchApps(q){renderApps(apps.filter(a=>a.name.toLowerCase().includes(q.toLowerCase())))}
+let z=20, n=0;
+function openApp(id){
+document.getElementById('start').classList.remove('open');
+if(document.querySelector('.win[data-app="'+id+'"]')){focusWin(document.querySelector('.win[data-app="'+id+'"]'));return}
+const a=apps.find(x=>x.id===id);const w=document.createElement('section');w.className='win';w.dataset.app=id;w.style.zIndex=++z;w.style.left=(120+n*25)%Math.max(140,innerWidth-680)+'px';w.style.top=(65+n*22)%Math.max(80,innerHeight-500)+'px';n=(n+1)%9;
+w.innerHTML=`<div class="titlebar"><span>${a.icon} ${a.name} — PanchOS</span><div class="controls"><button onclick="minWin(this)">—</button><button onclick="maxWin(this)">□</button><button onclick="this.closest('.win').remove()">×</button></div></div><div class="content" id="c"></div>`;
+document.getElementById('desktop').appendChild(w);drag(w);focusWin(w);const c=w.querySelector('#c');
+if(id==='files')c.innerHTML='<h2>Archivos</h2><div class="filelist">'+['PanchOS','Documentos','Descargas','Imágenes','Música','Proyectos','README.md'].map((x,i)=>'<div class="file">'+(i<6?'📁':'📄')+'<br>'+x+'</div>').join('')+'</div>';
+if(id==='notes')c.innerHTML='<textarea class="note" placeholder="Escribe tus notas..."></textarea>';
+if(id==='settings')c.innerHTML='<h2>Configuración</h2><div class="settings"><div class="setting">Modo oscuro <input class="switch" type="checkbox" checked></div><div class="setting">Animaciones <input class="switch" type="checkbox" checked></div><div class="setting">Efectos de transparencia <input class="switch" type="checkbox" checked></div><div class="setting">Versión <span>PanchOS 1.0 Web</span></div></div>';
+if(id==='about')c.innerHTML='<h1>💜 PanchOS</h1><p>Un escritorio web creado para el proyecto POS.</p><p><b>Pancho Games Studios</b><br>Interfaz experimental • HTML/CSS/JavaScript</p><p>Build 2026.09</p>';
+if(id==='calc')c.innerHTML='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px"><input id="display" style="grid-column:1/5;height:55px;background:#0004;color:#fff;border:0;border-radius:8px;padding:10px;font-size:24px;text-align:right"><button onclick="display.value+='7'">7</button><button onclick="display.value+='8'">8</button><button onclick="display.value+='9'">9</button><button onclick="display.value+='/'">÷</button><button onclick="display.value+='4'">4</button><button onclick="display.value+='5'">5</button><button onclick="display.value+='6'">6</button><button onclick="display.value+='*'">×</button><button onclick="display.value+='1'">1</button><button onclick="display.value+='2'">2</button><button onclick="display.value+='3'">3</button><button onclick="display.value+='-'">−</button><button onclick="display.value+='0'">0</button><button onclick="display.value+='.'">.</button><button onclick="try{display.value=Function('return '+display.value)()}catch{display.value='Error'}">=</button><button onclick="display.value+='+'">+</button><button style="grid-column:1/5" onclick="display.value=''">C</button></div>';
+if(id==='term')c.innerHTML='<div class="terminal" onclick="document.querySelector('.termcmd').focus()">PanchOS Terminal v1.0\nEscribe "help" para ver comandos.\n\n<span id="out">pancho@panchos:~$ </span><input class="termcmd" autofocus onkeydown="term(event,this)"></div>';
+}
+function term(e,i){if(e.key!=='Enter')return;const out=i.parentElement.querySelector('#out');const cmd=i.value.trim();let r='';if(cmd==='help')r='help  clear  date  neofetch  echo [texto]  about';else if(cmd==='clear')out.textContent='';else if(cmd==='date')r=new Date().toString();else if(cmd==='neofetch')r='PanchOS 1.0\nKernel: WebKernel\nShell: PanchShell\nUI: PanchUI\nStatus: ONLINE';else if(cmd==='about')r='PanchOS — Pancho Games Studios';else if(cmd.startsWith('echo '))r=cmd.slice(5);else if(cmd)r='Comando no encontrado: '+cmd;i.value='';if(cmd!=='clear')out.innerHTML+=' '+cmd+'\n'+r+'\npancho@panchos:~$ ';i.focus()}
+function focusWin(w){w.style.zIndex=++z}
+function minWin(b){b.closest('.win').style.display='none';setTimeout(()=>b.closest('.win').style.display='',2000)}
+function maxWin(b){const w=b.closest('.win');if(w.dataset.max){w.style.left=w.dataset.l;w.style.top=w.dataset.t;w.style.width=w.dataset.w;w.style.height=w.dataset.h;delete w.dataset.max}else{w.dataset.l=w.style.left;w.dataset.t=w.style.top;w.dataset.w=w.style.width;w.dataset.h=w.style.height;w.style.left='4px';w.style.top='4px';w.style.width='calc(100vw - 8px)';w.style.height='calc(100vh - 74px)';w.dataset.max=1}}
+function drag(w){let sx,sy,sl,st;const bar=w.querySelector('.titlebar');bar.onmousedown=e=>{if(e.target.tagName==='BUTTON')return;focusWin(w);sx=e.clientX;sy=e.clientY;sl=w.offsetLeft;st=w.offsetTop;const move=x=>{w.style.left=Math.max(0,sl+x.clientX-sx)+'px';w.style.top=Math.max(0,st+x.clientY-sy)+'px'};const up=()=>{document.removeEventListener('mousemove',move);document.removeEventListener('mouseup',up)};document.addEventListener('mousemove',move);document.addEventListener('mouseup',up)}}
+setInterval(()=>{const d=new Date();document.getElementById('clock').innerHTML=d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})+'<br>'+d.toLocaleDateString()},1000);
+setTimeout(()=>{const b=document.getElementById('boot');b.style.opacity=0;setTimeout(()=>b.remove(),600)},1400);
+document.addEventListener('mousedown',e=>{const w=e.target.closest('.win');if(w)focusWin(w)});
+document.addEventListener('keydown',e=>{if(e.key==='Meta'||(e.ctrlKey&&e.key==='Escape')){e.preventDefault();toggleStart()}});
+</script></body></html>
