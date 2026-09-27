@@ -457,10 +457,10 @@ function toggleMax(id){
 function closeAllWindows(){Object.keys(windows).forEach(closeApp)}
 function refreshTaskButtons(){
   var box=qs('#task-buttons');
-  var base='<button class="tb-btn" title="Inicio" onclick="toggleStart()">◈</button><button class="tb-btn" title="Archivos" onclick="openApp(\\'files\\')">📁</button><button class="tb-btn" title="Notas" onclick="openApp(\\'notes\\')">📝</button><button class="tb-btn" title="Terminal" onclick="openApp(\\'terminal\\')">⌨️</button><button class="tb-btn" title="Calculadora" onclick="openApp(\\'calc\\')">🧮</button>';
+  var base='<button class="tb-btn" title="Inicio" onclick="toggleStart()">◈</button><button class="tb-btn" title="Archivos" onclick="openApp(\'files\')">📁</button><button class="tb-btn" title="Notas" onclick="openApp(\'notes\')">📝</button><button class="tb-btn" title="Terminal" onclick="openApp(\'terminal\')">⌨️</button><button class="tb-btn" title="Calculadora" onclick="openApp(\'calc\')">🧮</button>';
   Object.keys(windows).forEach(function(id){
     var w=windows[id];
-    base+='<button class="tb-btn active" title="'+esc(w.title)+'" onclick="toggleTask(\\''+id+'\\')">'+w.icon+'</button>'
+    base+='<button class="tb-btn active" title="'+esc(w.title)+'" onclick="toggleTask(\''+id+'\')">'+w.icon+'</button>'
   });
   box.innerHTML=base
 }
