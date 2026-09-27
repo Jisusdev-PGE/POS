@@ -624,7 +624,7 @@ function openAbout(){
 function openBrowser(){
   var w=makeWindow('browser','Navegador','🌐','<div class="row" style="margin-bottom:10px"><input id="browser-url" class="search-box" style="height:40px" value="https://example.com"><button class="btn primary" id="browser-go">Ir</button></div><iframe id="browser-frame" title="Navegador PanchOS" style="width:100%;height:calc(100% - 52px);border:0;border-radius:12px;background:#fff"></iframe>');
   var url=qs('#browser-url',w),frame=qs('#browser-frame',w);
-  function go(){var x=url.value.trim();if(!/^https?:\\/\\//i.test(x))x='https://'+x;url.value=x;frame.src=x}
+  function go(){var x=url.value.trim();if(x.indexOf('http://')!==0&&x.indexOf('https://')!==0)x='https://'+x;url.value=x;frame.src=x}
   qs('#browser-go',w).onclick=go;url.addEventListener('keydown',function(e){if(e.key==='Enter')go()});go();return w
 }
 
