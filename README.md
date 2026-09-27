@@ -1,20 +1,41 @@
 # PanchOS 💜
 
-PanchOS es un sistema operativo web experimental creado para el repositorio POS.
+PanchOS 2.0 es un **sistema operativo web experimental** creado por Pancho Games Studios. Corre directamente en un navegador y está construido con HTML5, CSS y JavaScript.
 
-## Características
-- Escritorio con wallpaper dinámico y barra de tareas.
-- Menú Inicio con búsqueda.
-- Ventanas arrastrables, minimizables y maximizables.
-- Explorador de archivos simulado.
-- Bloc de notas.
-- Calculadora.
-- Terminal PanchShell con comandos básicos.
-- Configuración y pantalla Acerca de.
-- Diseño responsive para pantallas pequeñas.
-- Arranque visual de PanchOS.
+## Incluye
 
-## Ejecutar
-Abre `index.html` en cualquier navegador moderno.
+- 🖥️ Escritorio con wallpapers Aurora, Atardecer y Océano.
+- ◈ Menú Inicio con búsqueda de aplicaciones.
+- 🪟 Sistema de ventanas con mover, enfocar, minimizar, maximizar y cerrar.
+- 📌 Barra de tareas con aplicaciones abiertas.
+- 📁 Explorador de archivos con sistema de archivos virtual persistente.
+- 📄 Creación de archivos y carpetas.
+- 📝 Editor y bloc de notas con guardado local.
+- ⌨️ PanchShell 2.0 con comandos, historial y autocompletado.
+- 🧮 Calculadora.
+- ⚙️ Configuración con temas, color de acento, animaciones, transparencia y modo compacto.
+- 📊 Monitor del sistema en vivo.
+- 🔔 Centro de notificaciones.
+- 🌐 Navegador experimental integrado.
+- 🖱️ Menú contextual del escritorio.
+- 💾 Persistencia con localStorage.
+- 📱 Interfaz adaptable para móviles y pantallas pequeñas.
+- 🚀 Pantalla de arranque con mecanismo de seguridad para evitar que la sesión quede bloqueada.
 
-> PanchOS es una experiencia de escritorio simulada en HTML/CSS/JavaScript; no reemplaza un kernel o sistema operativo nativo.
+## Web
+
+**PanchOS:** https://jisusdev-pge.github.io/POS/
+
+## Ejecutar localmente
+
+Abre `index.html` en un navegador moderno.
+
+También puedes publicarlo con GitHub Pages.
+
+> PanchOS es una simulación de escritorio dentro del navegador. No contiene un kernel nativo y no sustituye a Windows, Linux o macOS.
+
+## Estructura actual
+
+La edición Web está concentrada en `index.html` para que el proyecto sea fácil de probar, modificar y publicar.
+
+— Pancho Games Studios
